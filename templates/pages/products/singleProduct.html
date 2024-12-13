@@ -1,0 +1,149 @@
+{% extends "index.html" %} {% block start %}
+<div style="background-color: #faf9f6">
+    <div
+        class="rounded-lg shadow-xl mx-2 my-2 sm:mx-4 sm:my-4 md:mx-10 md:my-10 lg:mx-15 lg:my-15 px-3 py-3 sm:px-4 sm:py-4 md:px-7 md:py-7 lg:px-10 lg:py-10 md:grid grid-cols-2 gap-4 md:gap-10 bg-white">
+        <div class="basis-[95%] md:basis-[48%]">
+            <div class="h-[500px]  flex justify-center items-center">
+                {% if product.get_first_image %}
+                <img id="main_image" class="max-h-[500px] min-h-[400px] w-auto rounded-lg" src="{{ product.get_first_image.image.url }}"
+                    alt="{{ product.name }}" />
+                {% else %}
+                <p>No image available</p>
+                {% endif %}
+            </div>
+            <div class="flex overflow-hidden mt-4">
+                {% for image in product.product_images.all%}
+                 <div class="mx-1 shadow-lg">
+                    {% if image %}
+                    
+                    <img onclick="setProductImage('product_image{{forloop.counter}}')" id="product_image{{forloop.counter}}" class="
+                    {% if forloop.counter == 1 %} border-2 border-blue-500 {% endif %}
+                    product_image h-[100px] rounded-lg" src="{{ image.image.url }}"
+                    alt="{{ product.name }}" />
+                    {% else %}
+                    <p>No image available</p>
+                    {% endif %}
+                </div>
+                {% endfor %} 
+                
+            </div>
+        </div>
+        <div class="basis-[95%] md:basis-[48%] md:pl-4 flex flex-col justify-start">
+            <h2 class="text-3xl font-bold">{{ product.name }}</h2>
+            <h2 class="text-lg font-bold">{{ product.price }}</h2>
+            <h2 class="text-lg font-bold">
+                <a href="{% url 'basicpages:category_products' product.category.slug %}">
+                    {{ product.category }}
+                </a>
+            </h2>
+            <h2 class="text-lg font-bold">
+                <a href="{% url 'basicpages:sub_category_products' product.sub_category.slug %}">
+                    {{ product.sub_category.sub_category_name }}
+                </a>
+            </h2>
+        </div>
+    </div>
+    <div
+        class="rounded-lg shadow-xl mx-2 my-2 sm:mx-4 sm:my-4 md:mx-10 md:my-10 lg:mx-15 lg:my-15 px-3 py-3 sm:px-4 sm:py-4 md:px-7 md:py-7 lg:px-10 lg:py-10 bg-white">
+        <h3 class="font-bold">Description:</h3>
+        <p>
+            {{product.description}}
+        </p>
+    </div>
+    <div
+        class="rounded-lg shadow-xl mx-2 my-2 sm:mx-4 sm:my-4 md:mx-10 md:my-10 lg:mx-15 lg:my-15 px-3 py-3 sm:px-4 sm:py-4 md:px-7 md:py-7 lg:px-10 lg:py-10 bg-white">
+        <h4 class="text-lg font-bold">{{comments|length}} Comments:</h4>
+        <!-- Need to fix this it's not a right solution -->
+        {% if user.username %}
+        <div>
+            <form action="{%url 'basicpages:add_comment' product.id product.slug%}" method="post">
+                {% csrf_token %}
+                <div>
+                    <input class="w-full outline-non border-[1px] border-black rounded-lg px-2 py-1" type="text"
+                        id="comment" name="comment" placeholder="Enter your comment" maxlength="200">
+                    <button id="comment_btn"
+                        class="bg-blue-500 px-2 py-1 md:px-3 hover:bg-blue-700 text-white  font-bold rounded-lg my-2 md:text-lg hover:text-gray-700 duration-500">
+                        Add Comment
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+        <div>
+            {% for comment in comments %}
+            <div>
+                <div class="flex relative">
+                    <div class="rounded-lg">
+                        {% if comment.is_user_image %}
+                        <img class="w-[50px] h-[50px] rounded-full" src="{{comment.get_user_image}}"
+                        alt="{{ product.name }}" />
+                        {% else %}
+                        <img class="w-[50px] h-[50px] rounded-full" src="/static/images/user.png" alt="">       
+                        {% endif %}
+                    </div>
+                    <div class="ml-2 flex flex-col justify-center">
+                        <h3 class="font-bold">{{comment.user}}</h3>
+                        <small>{{comment.created_at}}</small>
+                        
+                    </div>
+                    {% if user == comment.user %}
+                    <div onmouseover="commentMenuOpen('comment_menu_{{forloop.counter}}')" 
+                    onmouseleave="commentMenuClose('comment_menu_{{forloop.counter}}')" class="absolute right-[10px] px-1 py-1">
+                        <p  class=" text-3xl hover:text-blue-500">
+                            <b class="px-1 py-1 cursor-pointer">:</b>
+                            <div class="relative">
+                                <div id="comment_menu_{{forloop.counter}}" class="bg-white hidden absolute top-[-20px] right-3 right-0 px-2 py-2 rounded shadow-2xl">
+                                    <a href="{% url 'basicpages:delete_comment' comment.id product.slug %}">Delete</a>
+                                    <a href="#">Edit</a>
+                                </div>
+                            </div>
+                        </p>
+                        
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="">
+                    <p class="ml-14 my-1">{{comment.comment}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    islogin()
+    function islogin() {
+        var user = "{{ user.username }}";
+        if (user) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function setProductImage(id){
+        var images = document.getElementsByClassName('product_image')
+        for(var i=0; i<images.length; i++){
+            images[i].style.border="none"
+        }
+        console.log(images)
+        var selectedImage = document.getElementById(id);
+        var mainImage = document.getElementById('main_image');
+        console.log(id)
+        console.log(mainImage.src)
+        mainImage.src = selectedImage.src;
+        selectedImage.style.border="2px solid blue"
+    }
+    function commentMenuOpen(id){
+        var deleteComment = document.getElementById(id)
+        console.log("Menu clicked", deleteComment)
+        deleteComment.style.display='block'
+        commentMenuShowed=true;
+    }
+    function commentMenuClose(id){
+        var deleteComment = document.getElementById(id)
+        deleteComment.style.display='none'
+    }
+    
+</script>
+
+{% endblock %}

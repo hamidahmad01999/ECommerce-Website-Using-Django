@@ -1,0 +1,52 @@
+.external-font {
+    font-family: "Kaushan Script", cursive;
+}
+.external-font-2{
+  font-family: "Exo 2", sans-serif;
+}
+.shadow-white-lg{
+    box-shadow: '0 10px 15px -3px rgba(255, 255, 255, 0.4), 0 4px 6px -2px rgba(255, 255, 255, 0.3)';
+}
+.white-shadow {
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5), /* bottom */
+              0 4px 10px rgba(255, 255, 255, 0.5), /* top */
+              4px 0 10px rgba(255, 255, 255, 0.5), /* right */
+              -4px 0 10px rgba(255, 255, 255, 0.5); /* left */
+}
+.black-shadow {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), /* bottom */
+              0 5px 10px rgba(0, 0, 0, 0.1), /* top */
+              5px 0 10px rgba(0, 0, 0, 0.1), /* right */
+              -5px 0 10px rgba(0, 0, 0, 0.1); /* left */
+}
+.black-shadow-hover:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2), /* bottom */
+              0 5px 10px rgba(0, 0, 0, 0.2), /* top */
+              5px 0 10px rgba(0, 0, 0, 0.2), /* right */
+              -5px 0 10px rgba(0, 0, 0, 0.2); /* left */
+}
+.white-shadow-hover:hover{
+    box-shadow: 0 4px 5px rgba(255, 255, 255, 0.5), /* bottom */
+              0 4px 5px rgba(255, 255, 255, 0.5), /* top */
+              4px 0 5px rgba(255, 255, 255, 0.5), /* right */
+              -4px 0 5px rgba(255, 255, 255, 0.5); /* left */
+}
+
+.button-design:hover span{
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+}
+.product-image {
+    width: 100%; /* Full width of container */
+    height: 300px; /* Fixed height */
+    object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+    object-position: center; /* Centers the image in case it's cropped */
+     /* Optional: Adds rounded corners */
+}
+.product-detail-image {
+    width: 100%; /* Full width of container */
+    height: 500px; /* Fixed height */
+    object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+    object-position: center; /* Centers the image in case it's cropped */
+     /* Optional: Adds rounded corners */
+}

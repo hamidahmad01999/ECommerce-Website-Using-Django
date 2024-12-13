@@ -1,0 +1,57 @@
+<nav
+  class="{% if page == 'Home' %} text-[#F1F4F8] bg-gradient-to-r from-[#012D3B] via-[#013D4E] to-[#016073] {% else %} bg-gray-500 text-black {% endif %} py-2 font-mono shadow-white-lg"
+>
+  <div class="hidden sm:grid grid-cols-12 h-[50px] px-2 md:px-4 lg:px-6">
+    <div class="col-span-2 flex justify-center items-center">
+      {% if not user.first_name %}
+      <p>Welcome Guest </p>
+      {% else %}
+      <p>Welcome <b>{{user.first_name}} {{user.last_name}}</b></p>
+      {% endif %}
+    </div>
+    <div class="sm:col-span-8 lg:col-span-6 flex justify-start items-center">
+      <ul
+        class="flex justify-around lg:w-[80%] sm:text-xl md:text-xl lg:text-2xl items-center"
+      >
+        <li><a class="hover:text-gray-400 hover:scale-110 duration-500 inline-block {% if page == 'Home' %} underline scale-110 translate-y-[-8px] {% endif %}" href='{% url "basicpages:home_page" %}'>Home</a></li>
+        <li><a class="hover:text-gray-400 hover:scale-110 duration-500 inline-block" href="#">Products</a></li>
+        <li><a class="hover:text-gray-400 hover:scale-110 duration-500 inline-block" href="#">Sales</a></li>
+        <li><a class="hover:text-gray-400 hover:scale-110 duration-500 inline-block" href="#">About</a></li>
+        <li><a class="hover:text-gray-400 hover:scale-110 duration-500 inline-block" href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="sm:col-span-2 lg:col-span-4 flex justify-center items-center">
+        <div class="w-full">
+            <input class="outline-none bg-transparent border-[1px] border-white rounded-lg text-white py-1 text-lg px-1 md:px-2 lg:px-3 w-full" placeholder="Search an item!" type="search" name="" id="" maxlength="30">
+        </div>
+        <div class="relative rounded-full border-[1px] border-white flex justify-center items-center mx-1 hover:bg-gray-200 cursor-pointer transition-500">
+          {% load static %}
+          <img class="w-[70px] text-center" src="{% static '/images/cart.png' %}" alt="">
+          <span class="absolute top-[-8px] right-[-3px] z-10 text-white bg-gray-900 rounded-full px-[6px]">0</span>
+        </div>
+      {% if user.first_name %}
+      <button
+        class="bg-gray-500 rounded-lg text-white text-lg border-2 border-white hover:bg-transparent duration-500"
+      >
+        <a
+          class="inline-block px-3 md:px-8 transition-transform duration-500 transform hover:scale-125 hover:text-gray-400 md:text-xl"
+          href='{% url "accounts:logout_page" %}'
+          >Logout</a
+        >
+      </button>
+      {% else %}
+      <button
+        class="bg-gray-500 rounded-lg text-white text-lg border-2 border-white hover:bg-transparent duration-500 py-1"
+      >
+        <a
+          class="inline-block px-3 md:px-8 transition-transform duration-500 transform hover:scale-125 hover:text-gray-400 md:text-xl"
+          href='{% url "accounts:login_page" %}'
+        >
+          Login
+        </a>
+      </button>
+
+      {% endif %}
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+{% block start %}
+<div class="bg-white mx-2 my-2 sm:mx-4 sm:my-4 md:mx-10 md:my-10 lg:mx-15 lg:my-15 px-3 py-3 sm:px-4 sm:py-4 md:px-7 md:py-7 lg:px-10 lg:py-10">
+    <h1 class="text-xl md:text-3xl lg:text-4xl text-center font-bold">
+        {% if page_type == 'category' %}
+        Category: {{category}}
+        {% else  %}
+        Sub Category: {{sub_category}}
+        {% endif %}
+    </h1>
+    <div
+        class="grid px-5 sm:px-10 lg:px-20 py-5 sm:py-10 lg:py-20 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 sm:gap-x-5 sm:gap-y-4 md:gap-x-7 md:gap-y-5 lg:gap-x-9 lg:gap-y-6 xl:gap-x-12 xl:gap-y-8 rounded-lg shadow-xl  px-3 py-3 sm:px-4 sm:py-4 md:px-7 md:py-7 lg:px-10 lg:py-10">
+
+        {% if products %}
+        {% for product in products %}
+        <a href="{%url 'basicpages:single_product' product.slug%}">
+
+            {% comment %} <a href="{%  %}"> {% endcomment %}
+                <div
+                    class="black-shadow black-shadow-hover rounded-xl duration-500 hover:scale-[1.02] px-2 py-1 md:px-3 md:py-2 lg:px-4 lg:py-3">
+                    <div>
+                        <div class="rounded-lg">
+                            {% if product.get_first_image %}
+                            <img class="product-image rounded-lg" src="{{ product.get_first_image.image.url }}"
+                                alt="{{ product.name }}" />
+                            {% else %}
+                            <p>No image available</p>
+                            {% endif %}
+                        </div>
+                        <div class="my-1 px-1 py-1">
+                            <p>{{product.name}}</p>
+                            <p class="line-through">{{product.price}}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %} {% endif %}
+    </div>
+</div>
+{% endblock %}

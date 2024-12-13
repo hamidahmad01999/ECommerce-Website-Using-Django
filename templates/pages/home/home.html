@@ -1,0 +1,93 @@
+{% extends "index.html" %} {% block start %}
+
+<section>
+  <!-- bg-purple-900 text-gray-200 -->
+  <div
+    class="flex md:h-[90vh] text-[#F1F4F8] bg-gradient-to-r from-[#012D3B] via-[#013D4E] to-[#016073]"
+  >
+    <div class="basis-[40%] flex flex-col justify-center items-end">
+      <div class="md:mr-5 lg:mr-15">
+        <h1
+          class="text-3xl md:text-4xl lg:text-5xl font-bold external-font text-gray-300"
+        >
+          Welcome to Our Platform
+        </h1>
+        <div class="flex justify-center items-center flex-col">
+          <p class="text-gray-400 text-lg mt-4 external-font-2">
+            Upgrade Your Shopping Experience!
+          </p>
+          <p class="text-gray-400 text-lg mt-4 external-font-2">
+            "Find the Latest Trends and Top Products Right Here."
+          </p>
+        </div>
+
+        <div class="flex justify-center w-full">
+          <button
+            class="mt-6 text-white font-bold py-2 px-6 rounded-lg relative button-design border-white border-2 bg-brown-800"
+          >
+            <span
+              class="absolute duration-500 h-[100%] w-[0%] left-0 top-0 rounded-lg"
+            ></span>
+            <a class="inline-block scale-110" href="#">Order Now!</a>
+          </button>
+          <button
+            class="ml-5 mt-6 text-white font-bold py-2 px-6 rounded-lg relative button-design border-white border-2"
+          >
+            <span
+              class="absolute duration-500 h-[100%] w-[0%] left-0 top-0 rounded-lg"
+            ></span>
+            <a class="inline-block scale-110" href="#">Register Now!</a>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="basis-[60%] flex justify-center">
+      {% load static %}
+      <img
+        class="h-[100%] cover"
+        src="{% static '/images/girl.png' %}"
+        alt="My image"
+      />
+    </div>
+  </div>
+</section>
+
+<div>
+  <p>Home page</p>
+</div>
+<section>
+  <div
+    class="grid px-5 sm:px-10 lg:px-20 py-5 sm:py-10 lg:py-20 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 sm:gap-x-5 sm:gap-y-4 md:gap-x-7 md:gap-y-5 lg:gap-x-9 lg:gap-y-6 xl:gap-x-12 xl:gap-y-8 justify-between items-center mb-40"
+  >
+    {% if products %} 
+    {% for product in products %}
+    <a href="{%url 'basicpages:single_product' product.slug%}">
+      
+    {% comment %} <a href="{%  %}"> {% endcomment %}
+      <div
+        class="black-shadow black-shadow-hover rounded-xl duration-500 hover:scale-[1.02] px-2 py-1 md:px-3 md:py-2 lg:px-4 lg:py-3"
+      >
+        <div>
+          <div class="rounded-lg">
+            {% if product.get_first_image %}
+            <img
+              class="product-image rounded-lg"
+              src="{{ product.get_first_image.image.url }}"
+              alt="{{ product.name }}"
+            />
+            {% else %}
+            <p>No image available</p>
+            {% endif %}
+          </div>
+          <div class="my-1 px-1 py-1">
+            <p>{{product.name}}</p>
+            <p class="line-through">{{product.price}}</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %} {% endif %}
+  </div>
+</section>
+
+{% endblock %}
